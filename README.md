@@ -1,7 +1,7 @@
-# laravel-docker
+# laravel-docker ver1.0 [in English](README_en.md)
 ## これは何？
 * Dockerコンテナ内でLaravelアプリを稼働させることができるテンプレートのようなもの
-## 手順
+## 手順（2ステップのみ！）
 1. `init.sh` を実行
 ```
 $ ./init.sh [アプリ名]
