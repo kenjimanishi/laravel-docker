@@ -1,0 +1,40 @@
+version: '3'
+services:
+  # Laravel
+  app:
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    environment: 
+      APACHE_DOCUMENT_ROOT: /var/www/${PROJECT_NAME}/public
+    tty: true
+    stdin_open: true
+    ports:
+    - 8080:80
+    working_dir: /var/www/${PROJECT_NAME}
+    volumes:
+    - ./${PROJECT_NAME}:/var/www/${PROJECT_NAME}
+  # DB（MySQL）
+  mysql:
+    image: mysql:5.6
+    command: mysqld --character-set-server=utf8mb4 --skip-character-set-client-handshake
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: sample-db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    expose:
+      - '3306'
+  # MySQL Management GUI Tool
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+    ports:
+      - 18080:80
+    depends_on:
+      - mysql
+volumes:
+  mysql-data:
+    driver: local
